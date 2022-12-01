@@ -1,3 +1,5 @@
+const path = require("path");
+
 const options = {
     mariaDB: {
         client:'mysql',
@@ -7,6 +9,13 @@ const options = {
             password:"",
             database:"chatdb"
         }
+    },
+    sqliteDB:{
+        client:"sqlite",
+        connection:{
+            filename:path.join(__dirname, "../DB/ecommerce.sqlite")
+        },
+        useNullAsDefault:true
     }
 }
 

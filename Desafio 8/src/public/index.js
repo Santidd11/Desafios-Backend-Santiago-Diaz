@@ -10,6 +10,7 @@ productForm.addEventListener("submit", (event)=>{
         price: document.getElementById("price").value
     }
     socketClient.emit("newProduct", product);
+    productForm.reset();
 });
 
 const productsShow = document.getElementById("productsShow");
@@ -45,7 +46,6 @@ let messagesShow = document.getElementById("messagesShow");
 socketClient.on("chatArray", async(data)=>{
     let templateChat = await fetch("./templates/chat.handlebars");
     templateChat = await templateChat.text();
-    console.log(templateChat)
     const template = Handlebars.compile(templateChat);
     const htmlchat = template({chats:data});
     messagesShow.innerHTML = htmlchat;
