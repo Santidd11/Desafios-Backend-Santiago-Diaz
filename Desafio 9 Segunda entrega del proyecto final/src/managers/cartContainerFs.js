@@ -1,7 +1,9 @@
 import fs from "fs";
 import path from "path";
 import {fileURLToPath} from 'url';
+import { historialFS } from "./historialFs.js"
 
+const historial = new historialFS("historial.txt")
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -16,8 +18,10 @@ class cartContainerFs{
         try{
             let elements = await fs.promises.readFile(this.fileName,"utf-8")
             elements = JSON.parse(elements)
+            await historial.save({movimiento: "Lectura de la colección carritos", DB: "FileSistem"});
             return elements
         } catch(error){
+            await historial.save({movimiento: "ERROR Lectura de la colección carritos", DB: "FileSistem"})
             console.log(`Error al leer el archivo: ${error}`)
         }
     }
@@ -31,18 +35,22 @@ class cartContainerFs{
                     newCarrito.id = items.length + 1
                     items.push(newCarrito)
                     await fs.promises.writeFile(`${this.fileName}`,JSON.stringify(items,null,2));
+                    await historial.save({movimiento: "Guardado de carrito", DB: "FileSistem"})
                     console.log(`Carrito creado con el ID: ${newCarrito.id}`)
                 }else{
                     newCarrito.id = 1;
                     await fs.promises.writeFile(`${this.fileName}`,JSON.stringify([newCarrito],null,2));
+                    await historial.save({movimiento: "Guardado de carrito", DB: "FileSistem"})
                     console.log(`Carrito creado con el ID: ${newCarrito.id}`)
                 }
             }else{
                 newCarrito.id = 1;
                 await fs.promises.writeFile(`${this.fileName}`,JSON.stringify([newCarrito],null,2));
+                await historial.save({movimiento: "Guardado de carrito", DB: "FileSistem"})
                 console.log(`Carrito creado con el ID: ${newCarrito.id}`)
             }
         } catch(error){
+            await historial.save({movimiento: "ERROR al guardar carrito", DB: "FileSistem"})
             console.log(`Error al escribir el archivo: ${error}`)
         }
     }
@@ -59,11 +67,14 @@ class cartContainerFs{
                     }
                 }
                 await fs.promises.writeFile(`${this.fileName}`,JSON.stringify(array,null,2));
+                await historial.save({movimiento: "Guardado de producto", DB: "FileSistem"})
             }else{
                 carrito.producto.push(product)
                 await fs.promises.writeFile(`${this.fileName}`,JSON.stringify(carrito,null,2));
+                await historial.save({movimiento: "Guardado de producto", DB: "FileSistem"})
             }
         } catch(error){
+            await historial.save({movimiento: "ERROR en guardado de producto", DB: "FileSistem"})
             console.log(`Error al escribir el archivo: ${error}`)
         }
     }
@@ -72,8 +83,10 @@ class cartContainerFs{
         try{
             const stock = await this.getAll();
             const product = stock.find(element=>element.id === id)
+            await historial.save({movimiento: "Lectura de carrito", DB: "FileSistem"})
             return product.productos
         }catch (error){
+            await historial.save({movimiento: "ERROR Lectura de carrito", DB: "FileSistem"});
             console.log(`Error al obtener producto: ${error}`)
         }
     }
@@ -89,8 +102,10 @@ class cartContainerFs{
             }
             this.deleteAll();
             await fs.promises.writeFile(`${this.fileName}`,JSON.stringify(stock,null,2));
+            await historial.save({movimiento: "Documento actualizado", DB: "FileSistem"});
             console.log("Producto actualizado")
         }catch (error){
+            await historial.save({movimiento: "ERROR Documento actualizado", DB: "FileSistem"});
             console.log(`Error al actualizar producto ${error}`)
         }
     }
@@ -101,8 +116,10 @@ class cartContainerFs{
             console.log(stock);
             const newStock = stock.filter(element=> element.id !== id)
             await fs.promises.writeFile(`${this.fileName}`,JSON.stringify(newStock,null,2));
+            await historial.save({movimiento: "Carrito eliminado", DB: "FileSistem"});
             console.log("Stock actualizado")
         }catch (error){
+            await historial.save({movimiento: "ERROR Carrito eliminado", DB: "FileSistem"});
             console.log(`Error al eliminar producto: ${error}`)
         }
     }
@@ -113,8 +130,10 @@ class cartContainerFs{
             const newStock = carrito.filter(element=> element.id !== idProduct)
             carrito.productos = newStock
             await this.updateByID(idCarrito, carrito);
+            await historial.save({movimiento: "Producto eliminado del carrito", DB: "FileSistem"});
             console.log("Producto eliminado")
         }catch (error){
+            await historial.save({movimiento: "ERROR Producto eliminado del carrito", DB: "FileSistem"});
             console.log(`Error al eliminar producto: ${error}`)
         }
     }
@@ -122,8 +141,10 @@ class cartContainerFs{
     async deleteAll(){
         try{
             await fs.promises.writeFile(`${this.fileName}`,"");
+            await historial.save({movimiento: "Vaciar coleccion Carritos", DB: "FileSistem"});
             console.log("Stock vaciado");
         }catch (error){
+            await historial.save({movimiento: "ERROR Vaciar coleccion Carritos", DB: "FileSistem"});
             console.log(`Error al eliminar stock: ${error}`);
         }
     }

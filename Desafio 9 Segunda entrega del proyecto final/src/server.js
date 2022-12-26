@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 import { EnableAdmin } from './managers/claseAdmin.js';
+import { historialFS } from './managers/historialFs.js';
 import path from 'path';
 import bodyParser from 'body-parser';
 
@@ -16,6 +17,7 @@ const PORT = 8080;
 const productosService = ContenedorDaoProductos;
 const adminService = new EnableAdmin("admin.txt");
 const carritoService = ContenedorDaoCarts
+const historial = new historialFS("historial.txt");
 
 
 
@@ -62,7 +64,7 @@ const newDate = () =>{
 //Productos
 routerProductos.get('/', async (req, res) =>{
     const productos = await productosService.getAll();
-    res.render("productos", {
+    res.json({
         productos:productos
     })
 })
@@ -72,13 +74,13 @@ routerProductos.get('/:id', async (req, res) =>{
     let productos = []
     const producto = await productosService.getById(id);
     productos.push(producto)
-    res.render("productos", {
-        productos:productos
+    res.json({
+        producto:productos
     })
 })
 
 routerProductos.post('/', async (req, res) =>{
-    admin = await adminService.get();
+    const admin = await adminService.get();
     if (admin === true){
         res.render("postProducto")
         const newProduct = await req.body;
@@ -88,26 +90,39 @@ routerProductos.post('/', async (req, res) =>{
 })
 
 routerProductos.put('/:id', async (req, res) =>{
-    admin = await adminService.get();
+    const admin = await adminService.get();
     if (admin === true){
         const id = parseInt(req.params.id)
         const newProduct = await req.body;
         newProduct.timestamp = newDate()
         productosService.updateByID(id, newProduct)
-        res.redirect("/productos");
+        res.json({
+            producto_nuevo: newProduct
+        })
     }
 })
 
 routerProductos.delete('/:id', async (req, res) =>{
-    admin = await adminService.get();
+    const admin = await adminService.get();
+    console.log(admin)
     if (admin === true){
         const id = parseInt(req.params.id)
-        productosService.deleteById(id)
-        res.redirect("/productos");
+        const producto = await productosService.getById(id)
+        await productosService.deleteById(id)
+        res.json({
+            producto_eliminado: producto 
+        });
     }
 })
 
 //Carrito
+routerCarrito.get('/', async (req, res) =>{
+    const carrito = await carritoService.getAll();
+    res.json({
+        productos:carrito
+    })
+})
+
 routerCarrito.post('/', async (req, res) =>{
     const newCarrito = {};
     const newProduct = await req.body;
@@ -117,7 +132,7 @@ routerCarrito.post('/', async (req, res) =>{
     console.log("Carrito agregado");
     const carrito = await carritoService.getAll();
     res.json({
-        carrito: carrito
+        carritos: carrito
     })
 })
 
@@ -126,9 +141,9 @@ routerCarrito.delete('/:id', async (req, res) =>{
     console.log(id)
     carritoService.deleteById(id);
     console.log("Carrito eliminado")
-    const carrito = await carritoService.getAll();
+    const carrito = await carritoService.getById(id)
     res.json({
-        carrito: carrito
+        carrito_eliminado: carrito
     })
 })
 
@@ -146,9 +161,8 @@ routerCarrito.post('/:id/productos', async (req, res)=>{
     const newProducto = await productosService.getById(idNewProducto)
     await carritoService.saveProduct(id, newProducto);
     console.log("Producto guardado")
-    const carrito = await carritoService.getById(id);
     res.json({
-        productos:carrito
+        producto_guardado:newProducto
     })
 })
 
@@ -162,6 +176,14 @@ routerCarrito.delete('/:id/productos/:id_prod', async (req, res) =>{
         productos:carrito
     })
 })
+
+app.get('/historial', async (req, res) =>{
+    const miHistorial = await historial.getAll();
+    console.log(miHistorial)
+    res.json({
+        Historial:miHistorial
+    })
+});
 
 app.use('/productos', routerProductos);
 app.use('/carrito', routerCarrito);

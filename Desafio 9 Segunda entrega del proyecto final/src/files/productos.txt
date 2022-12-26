@@ -20,16 +20,6 @@
     "stock": 12
   },
   {
-    "id": 3,
-    "code": 9837,
-    "title": "Monitor",
-    "price": "104000",
-    "thumbnail": "https://www.lg.com/es/images/monitores/MD06025876/gallery/medium03.jpg",
-    "timestamp": "01-12-2018",
-    "description": "LG busca entender a los usuarios para ofrecerles óptimas soluciones y nuevas experiencias a través de la evolución tecnológica. Disfrutá de la perfecta combinación de diseño, calidad y rendimiento que la empresa te ofrece en este monitor.",
-    "stock": 1
-  },
-  {
     "id": 4,
     "code": 4851,
     "title": "Motherboard",
