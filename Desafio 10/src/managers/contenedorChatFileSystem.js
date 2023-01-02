@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 
-class contenedorChat{
+class contenedorChatFileSystem{
     constructor(fileName){
         this.fileName = path.join(__dirname,"..",`files/${fileName}`);
     }
@@ -48,4 +48,4 @@ class contenedorChat{
     }
 }
 
-export {contenedorChat};
+export {contenedorChatFileSystem};

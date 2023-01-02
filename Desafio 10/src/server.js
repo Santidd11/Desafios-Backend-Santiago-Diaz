@@ -1,9 +1,8 @@
-
 import express from 'express';
 import handlebars from 'express-handlebars'
 import path from 'path';
 import {fileURLToPath} from 'url';
-import { contenedorChat } from './managers/contenedorChat.js';
+import { ContenedorDaoChat } from './daos/fabric.js';
 import { Server } from 'socket.io';
 import { normalize, schema } from 'normalizr';
 import { faker } from '@faker-js/faker';
@@ -13,7 +12,7 @@ faker.locale="es";
 const PORT = 8080;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const mensajesDB = new contenedorChat("chat.txt");
+const mensajesDB = ContenedorDaoChat;
 const viewsFolder = path.join(__dirname,"views");
 const {commerce, image} = faker;
 
