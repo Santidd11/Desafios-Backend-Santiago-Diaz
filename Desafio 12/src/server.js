@@ -12,10 +12,9 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import MongoStore from 'connect-mongo';
 import { UserModel } from './models/user.js';
-import { options } from './config/DBConfig.js';
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
 import InitPassport from './passport/initPassport.js';
+import flash from 'connect-flash';
 
 
 
@@ -90,6 +89,9 @@ const normalizadorMensajes = async () =>{
     return normalizedMessages;
 };
 
+//Flash
+app.use(flash())
+
 //Passport
 InitPassport(passport)
 
@@ -131,29 +133,31 @@ io.on("connection", async(socket)=>{
     })
 })
 
+const isAuthenticated =  (req, res, next) => {
+    if (req.isAuthenticated())
+	    return next();
+    res.redirect('/login');
+}
 
-
-app.get("/",(req,res)=>{
-    if (req.session.usuario){
-        res.render("index",{name: req.session.usuario})
-    } else{
-        res.redirect("/login")
-    }
+app.get("/", isAuthenticated, (req,res)=>{
+    res.render("index",{name: req.session.usuario})
 })
 
-app.get('/productos', async(req, res) =>{
+
+app.get('/productos', isAuthenticated, async(req, res) =>{
     res.render("productos", {
         productos:products
     })
 })
 
 app.get("/login", async(req, res) =>{
-    res.render("login");
+    res.render("login", {message: req.flash('message')});
 })
 
 
 app.post('/login', passport.authenticate('LoginStrategy', {
-    failureRedirect: '/productos',
+    failureRedirect: '/',
+    failureFlash:true
 }), (req, res)=>{
     const {email} = req.body
     req.session.usuario = email
@@ -161,12 +165,13 @@ app.post('/login', passport.authenticate('LoginStrategy', {
 });
 
 app.get("/signup", async(req, res) =>{
-    res.render("signup");
+    res.render("signup",{message: req.flash('message')});
 })
 
 app.post('/signup', passport.authenticate('SignUpStrategy', {
     successRedirect: '/',
     failureRedirect: '/signup',
+    failureFlash: true
 }));
 
 app.get("/logout", async(req, res) =>{
@@ -175,6 +180,7 @@ app.get("/logout", async(req, res) =>{
         if(err){
             return res.redirect("/")
         }else{
+            req.logout()
             res.render("logout", {name: nombre});
         }
     });

@@ -16,7 +16,7 @@ const SignUpPassport = (passport) =>{
                 }
                 if (user) {
                     console.log('Usuario ya existente con este email'+username);
-                    return done(null, false, {message:'User Already Exists'});
+                    return done(null, false, req.flash('message', 'Usuario no encontrado'));
                 } else{
                     var newUser = new UserModel();
                     newUser.email = username;

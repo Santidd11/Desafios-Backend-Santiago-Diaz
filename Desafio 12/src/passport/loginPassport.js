@@ -13,11 +13,11 @@ const LoginPassport = (passport)=>{
             if(err) return done(err);
             if(!userFound){
                 console.log('usuario no encontrado con email '+username);
-                return done(null, false, {message: 'Usuario no encontrado'});
+                return done(null, false, req.flash('message', 'Usuario no encontrado'));
             }
             if (!isValidPassword(userFound, password)){
                 console.log('Contraseña invalida');
-                return done(null, false, {message: 'Conraseña invalida'});
+                return done(null, false, req.flash('message', 'Contraseña Invalida.'));
             }
             return done(null, userFound);
         }

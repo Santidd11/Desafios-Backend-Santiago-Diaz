@@ -1,8 +1,8 @@
 <div class="mx-5 my-2">
-    {{#if error}}
-        <p>{{error}}</p>
-    {{/if}}
     <form action="/login" method="POST" style="max-width:400px" class="mx-auto my-5">
+            {{#if message}}
+                <p class="text-danger">{{message}}</p>
+            {{/if}}
         <label class="form-label">Correo:</label>
         <input class="form-control" type="text" name="email" placeholder="Ingresa tu correo"/>
         <label class="form-label">Contraseña:</label>
