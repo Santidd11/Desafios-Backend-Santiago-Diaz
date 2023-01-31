@@ -1,0 +1,5 @@
+2023/01/24 20:05:54 [error] 4144#9156: *1 CreateFile() "D:\Santi\Desktop\nginx-1.22.1/html/favicon.ico" failed (2: El sistema no puede encontrar el archivo especificado), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/"
+2023/01/28 19:03:16 [emerg] 12648#5464: unexpected "}" in D:\Santi\Desktop\Desafio 14\nginx\nginx-1.22.1/conf/nginx.conf:37
+2023/01/28 19:05:32 [emerg] 9096#6248: unexpected "}" in D:\Santi\Desktop\Desafio 14\nginx\nginx-1.22.1/conf/nginx.conf:37
+2023/01/31 18:05:03 [emerg] 11640#2972: unexpected "}" in D:\Santi\Desktop\Desafio 14\nginx\nginx-1.22.1/conf/nginx.conf:37
+2023/01/31 18:06:10 [emerg] 13204#10316: unexpected "}" in D:\Santi\Desktop\Desafio 14\nginx\nginx-1.22.1/conf/nginx.conf:37
