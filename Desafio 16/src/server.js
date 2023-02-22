@@ -20,18 +20,39 @@ import passport from 'passport';
 import InitPassport from './passport/initPassport.js';
 import { UserModel } from './models/user.js';
 import { transporter, testMail } from './messages/mail.js';
+import { twilioClient, twilioWhatsappPhone, adminWhatsappPhone } from './messages/whatsapp.js';
+import cluster from 'cluster';
+import os from 'os';
+import parseArgs from 'minimist';
 
-const PORT = 8080;
+const processArgDefault = {alias:{p:"port", m:"modo"}, default:{port:8080, modo:"FORK"}}
+const argumentos = parseArgs(process.argv.slice(2), processArgDefault);
+const PORT = argumentos.port || 8080;
+const MODO = argumentos.modo;
 const productosService = ContenedorDaoProductos;
 const adminService = new EnableAdmin("admin.txt");
 const carritoService = ContenedorDaoCarts
 const viewsFolder = path.join(__dirname,"views")
-
-
 const app = express();
-app.listen(PORT, ()=>{
-    logger.info(`Servidor escuchando el puerto: ${PORT}`)
-});
+
+
+//Logica cluster
+if(MODO === "CLUSTER" && cluster.isPrimary){
+    const cpuNumber = os.cpus().length;
+    logger.info("numero de Nucelos: "+cpuNumber)
+    for(let i=0;i<cpuNumber;i++){
+        cluster.fork()
+    }
+
+    cluster.on('exit',(worker)=>{
+        logger.warn(`El proceso ${worker.process.pid} dejo de funcionar`)
+        cluster.fork();
+    })
+}else{
+
+    //Servidor express
+    const server = app.listen(PORT, ()=>logger.info(`Servidor escuchando el puerto: ${PORT}, en proceso ${process.pid}`));
+}
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -155,10 +176,28 @@ app.get("/signup", async(req, res) =>{
 })
 
 app.post('/signup', passport.authenticate('SignUpStrategy', {
-    successRedirect: '/login',
     failureRedirect: '/signup',
     failureFlash: true
-}));
+}), async (req, res)=>{
+    const {email} = req.body
+    const {password} = req.body
+    const {name} = req.body
+    const {dir} = req.body
+    const {age} = req.body
+    const {tel} = req.body
+    const {thumbnail} = req.body
+    try{
+        await transporter.sendMail({
+            from: "Server",
+            to: testMail,
+            subject: `Nuevo Registro`,
+            text: `Datos de registro:\n Email: ${email}\n Password: ${password}\n Name: ${name}\n Dir: ${dir}\n Age: ${age}\n Tel: ${tel}\n Thumbnail: ${thumbnail}`
+        })
+    }catch (error){
+        logger.error(error)
+    }
+    res.redirect("/login")
+});
 
 app.get("/logout", async(req, res) =>{
     logger.info("Ruta '/logout' en metodo get")
@@ -324,13 +363,34 @@ routerCarrito.get('/:id/:id_prod', async (req, res) =>{
 
 app.post("/envio/:idUser", async(req,res)=>{
     const idUser = req.params.idUser
-    const usuario = UserModel.findOne({})
+    const loginUser = await UserModel.findOne({_id: idUser});
+    const cart = await carritoService.getById(idUser);
+    let productos = cart[0].productos;
+    let productosText = "";
+
+    
+    for (const element of productos) {
+        productosText += `Codigo: ${element.code}, Producto: ${element.title}, Precio: ${element.price} \n`
+    }
     try{
         await transporter.sendMail({
-            from: correoUser,
+            from: loginUser.email,
             to: testMail,
-            subject:
+            subject: `Nuevo pedido de ${loginUser.name}, mail: ${loginUser.email}`,
+            text: `Id: ${cart[0].id}, TimeStamp: ${cart[0].timestamp}\n Productos:\n ${productosText}`
         })
+        await twilioClient.messages.create({
+            from: twilioWhatsappPhone,
+            to: adminWhatsappPhone,
+            body: `Id: ${cart[0].id}, TimeStamp: ${cart[0].timestamp}\n Productos:\n ${productosText}`
+        })
+        await twilioClient.messages.create({
+            from: twilioWhatsappPhone,
+            to: `whatsapp:+549${loginUser.tel}`,
+            body: `Compra realizada con exito`
+        })
+        await carritoService.deleteById(idUser)
+        res.redirect("/")
     }catch (error){
         res.send(error)
     }

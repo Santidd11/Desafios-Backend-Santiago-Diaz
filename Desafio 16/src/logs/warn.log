@@ -115,3 +115,5 @@
 [2023-02-21T19:42:13.084] [ERROR] default - Error al eliminar producto: TypeError: carrito.productos is not iterable
 [2023-02-21T19:42:43.702] [ERROR] default - Error al eliminar producto: ReferenceError: newStock is not defined
 [2023-02-21T19:43:34.903] [ERROR] default - Error al eliminar producto: ReferenceError: newStock is not defined
+[2023-02-22T17:57:45.337] [WARN] default - Usuario ya existente con este email: santidd11@gmail.com
+[2023-02-22T18:04:39.523] [ERROR] default - [Function: next]

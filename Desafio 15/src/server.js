@@ -17,7 +17,6 @@ import InitPassport from './passport/initPassport.js';
 import flash from 'connect-flash';
 import { envConfig } from './config/envConfig.js';
 import parseArgs from 'minimist';
-import { fork } from 'child_process';
 import cluster from 'cluster';
 import os from 'os';
 import compression from 'compression';

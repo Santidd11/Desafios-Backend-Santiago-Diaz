@@ -20,6 +20,10 @@
             </div>
         </div>
     {{/each}}
+
+    <form action="/envio/{{id}}" method="post">
+        <button type="submit" class="btn btn-primary">Realizar compra</button>
+    </form>
     {{else}}
     <h2 class="text-center">No hay productos en su carrito</h2>
     {{/if}}

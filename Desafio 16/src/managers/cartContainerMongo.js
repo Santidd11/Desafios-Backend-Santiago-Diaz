@@ -61,7 +61,7 @@ class cartContainerMongo{
 
     async deleteById(id){
         try{
-            await this.model.deleteOne({_id : ObjectId(id)})
+            await this.model.deleteOne({id : id})
             logger.info("Stock actualizado")
         }catch (error){
             logger.error(`Error al eliminar producto: ${error}`)

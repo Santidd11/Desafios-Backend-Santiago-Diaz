@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
     tel:{
         type:String,
         require:true
+    },
+    thumbnail:{
+        type:String,
+        require:false
     }
 });
 
