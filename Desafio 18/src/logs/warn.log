@@ -1,0 +1,23 @@
+[2023-03-15T14:21:51.938] [ERROR] default - Error al escribir el archivo: ValidationError: stock: Path `stock` is required., description: Path `description` is required., thumbnail: Path `thumbnail` is required., price: Path `price` is required., title: Path `title` is required., code: Path `code` is required.
+[2023-03-15T14:23:45.951] [ERROR] default - Error al escribir el archivo: ValidationError: stock: Path `stock` is required., description: Path `description` is required., thumbnail: Path `thumbnail` is required., price: Path `price` is required., title: Path `title` is required., code: Path `code` is required.
+[2023-03-15T14:31:23.210] [ERROR] default - Error al escribir el archivo: ValidationError: stock: Path `stock` is required., description: Path `description` is required., thumbnail: Path `thumbnail` is required., price: Path `price` is required., title: Path `title` is required., code: Path `code` is required.
+[2023-03-15T14:52:23.356] [ERROR] default - Error al escribir el archivo: ValidationError: _id: Cast to ObjectId failed for value "x" (type string) at path "_id" because of "BSONTypeError", thumbnail: Path `thumbnail` is required.
+[2023-03-15T14:53:37.828] [ERROR] default - Error al escribir el archivo: ValidationError: _id: Cast to ObjectId failed for value "x" (type string) at path "_id" because of "BSONTypeError", thumbnail: Path `thumbnail` is required.
+[2023-03-15T14:55:30.776] [ERROR] default - Error al escribir el archivo: ValidationError: _id: Cast to ObjectId failed for value "x" (type string) at path "_id" because of "BSONTypeError", thumbnail: Path `thumbnail` is required.
+[2023-03-15T14:58:19.365] [ERROR] default - Error al escribir el archivo: ValidationError: _id: Cast to ObjectId failed for value "x" (type string) at path "_id" because of "BSONTypeError", thumbnail: Path `thumbnail` is required.
+[2023-03-15T15:01:19.086] [ERROR] default - Error al escribir el archivo: MongoServerError: E11000 duplicate key error collection: CoderDB.productos index: code_1 dup key: { code: 1111 }
+[2023-03-15T15:01:34.798] [ERROR] default - Error al escribir el archivo: MongoServerError: E11000 duplicate key error collection: CoderDB.productos index: code_1 dup key: { code: 1111 }
+[2023-03-15T15:01:48.443] [ERROR] default - Error al escribir el archivo: MongoServerError: E11000 duplicate key error collection: CoderDB.productos index: code_1 dup key: { code: 1111 }
+[2023-03-15T15:07:44.599] [ERROR] default - Error al escribir el archivo: MongoServerError: E11000 duplicate key error collection: CoderDB.productos index: code_1 dup key: { code: 1111 }
+[2023-03-15T15:08:16.861] [ERROR] default - Error al escribir el archivo: MongoServerError: E11000 duplicate key error collection: CoderDB.productos index: code_1 dup key: { code: 1111 }
+[2023-03-15T15:12:00.897] [ERROR] default - Error al actualizar producto ReferenceError: ObjectId is not defined
+[2023-03-15T15:17:30.709] [ERROR] default - Error al actualizar producto ReferenceError: ObjectId is not defined
+[2023-03-15T15:19:37.802] [ERROR] default - Error al obtener producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
+[2023-03-15T15:19:37.802] [ERROR] default - Error al eliminar producto: ReferenceError: ObjectId is not defined
+[2023-03-15T15:20:30.087] [ERROR] default - Error al obtener producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
+[2023-03-15T15:20:30.087] [ERROR] default - Error al eliminar producto: ReferenceError: ObjectId is not defined
+[2023-03-15T15:24:41.885] [ERROR] default - Error al actualizar producto ReferenceError: ObjectId is not defined
+[2023-03-15T15:28:42.021] [ERROR] default - Error al obtener producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
+[2023-03-15T15:28:42.023] [ERROR] default - Error al eliminar producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
+[2023-03-15T15:29:02.983] [ERROR] default - Error al obtener producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
+[2023-03-15T15:29:02.984] [ERROR] default - Error al eliminar producto: CastError: Cast to Number failed for value "NaN" (type number) at path "code" for model "productos"
