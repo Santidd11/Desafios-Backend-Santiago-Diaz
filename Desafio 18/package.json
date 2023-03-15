@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "testAxios": "node src/axios.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "mocha src/test/server.test.js"
   },
   "keywords": [],
   "author": "",
@@ -30,9 +31,12 @@
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pug": "^3.0.2",
+    "supertest": "^6.3.3",
     "twilio": "^4.8.0"
   },
   "devDependencies": {
-    "jest": "^29.5.0"
+    "chai": "^4.3.7",
+    "jest": "^29.5.0",
+    "mocha": "^10.2.0"
   }
 }

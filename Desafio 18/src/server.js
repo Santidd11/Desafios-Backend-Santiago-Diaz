@@ -101,3 +101,4 @@ passport.deserializeUser((id,done)=>{
 app.use(router)
 
 
+export {app};

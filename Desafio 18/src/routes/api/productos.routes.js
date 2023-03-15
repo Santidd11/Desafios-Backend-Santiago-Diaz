@@ -58,7 +58,6 @@ router.get('/:id', async (req, res) =>{
 
 router.post('/', async (req, res) =>{
     const newProduct = await req.body;
-    newProduct.timestamp = newDate()
     await productosService.save(newProduct)
     const productos = await productosService.getAll();
     res.json({
