@@ -5,7 +5,7 @@ const productosService = ContenedorDaoProductos;
 const url = "http://localhost:8080/productos"
 
 
-export const testGetProducts = async()=>{
+export const testGetUsers = async()=>{
     try {
         const response = await axios.get(url);
         console.log(response.data);
@@ -13,7 +13,7 @@ export const testGetProducts = async()=>{
         console.log(error)
     };
 };
-export const testPostProducts = async(newProduct)=>{
+export const testPostUsers = async(newProduct)=>{
     try {
         let result = await axios.post(url, newProduct );
         console.log(result.data);
@@ -22,7 +22,7 @@ export const testPostProducts = async(newProduct)=>{
     };
 };
 
-export const testUpdateUProducts = async(id, updatedProduct)=>{
+export const testUpdateUsers = async(id, updatedProduct)=>{
     try {
         let result = await axios.put(`${url}/${id}`, updatedProduct );
         console.log(result.data);
@@ -31,7 +31,7 @@ export const testUpdateUProducts = async(id, updatedProduct)=>{
     };
 };
 
-export const testDeleteProducts = async(id)=>{
+export const testDeleteUsers = async(id)=>{
     try {
         let result = await axios.delete(`${url}/${id}`);
         console.log(result.data);

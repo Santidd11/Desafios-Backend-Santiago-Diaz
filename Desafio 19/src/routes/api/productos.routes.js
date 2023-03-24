@@ -57,7 +57,7 @@ router.get('/:id', async (req, res) =>{
 })
 
 router.post('/', async (req, res) =>{
-    const newProduct = req.body;
+    const newProduct = await req.body;
     await productosService.save(newProduct)
     const productos = await productosService.getAll();
     res.json({

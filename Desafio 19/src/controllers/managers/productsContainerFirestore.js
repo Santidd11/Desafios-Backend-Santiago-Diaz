@@ -62,7 +62,8 @@ class productsContainerFirestore{
 
     async deleteById(id){
         try{
-            await this.collection.deleteOne({code: id})
+            const doc = this.collection.doc(id);
+            await doc.delete();
             logger.info("Producto Eliminado")
         }catch (error){
             logger.error(`Error al eliminar producto: ${error}`)
