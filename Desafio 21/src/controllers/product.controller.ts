@@ -1,17 +1,16 @@
 import { Context, helpers, config, MongoClient, ObjectId } from "../../depts.ts";
 import {Producto} from "../types/productos.ts";
 
-const {MONGO_URL,DATABASE_NAME} = config();
 
 const client = new MongoClient();
 try {
-    await client.connect(MONGO_URL);
+    await client.connect("mongodb+srv://Santidd11:coder.backend@cluster0.kc4fhea.mongodb.net/CoderDB?authMechanism=SCRAM-SHA-1");
     console.log("conexion a la base de datos exitosa!")
 } catch (error) {
     console.log(error)
 }
 
-const db = client.database(DATABASE_NAME);
+const db = client.database("CoderDB");
 const productModel = db.collection<Producto>("productos");
 
 export const findProducts = async(ctx:Context)=>{
